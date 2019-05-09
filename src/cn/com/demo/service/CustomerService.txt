@@ -1,0 +1,79 @@
+package cn.com.demo.service;
+
+import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import cn.com.demo.dao.CustomerDao;
+import cn.com.demo.domain.Customer;
+import cn.com.demo.domain.PageBean;
+
+@Transactional
+public class CustomerService {
+	private CustomerDao customerDao;
+
+	public void setCustomerDao(CustomerDao customerDao) {
+		this.customerDao = customerDao;
+	}
+
+	public void addCustomer(Customer customer) {
+		customerDao.addCustomer(customer);
+	}
+
+	public List<Customer> findAll() {
+		
+		return customerDao.findAll();
+	}
+
+	public Customer findCustomerById(Integer id) {
+		// TODO Auto-generated method stub
+		return customerDao.findCustomerById(id);
+	}
+
+	public void deleteCustomer(Customer c) {
+		customerDao.deleteCustomer(c);
+	}
+
+	public void updateCustomer(Customer customer) {
+		customerDao.updateCustomer(customer);
+	}
+
+	// 封装pageBean对象
+	public PageBean findPage(Integer currentPage) {
+		PageBean pageBean = new PageBean();
+		pageBean.setCurrentPage(currentPage);
+
+		Integer totalCount = customerDao.findCount();
+		pageBean.setTotalCount(totalCount);
+
+		Integer pageSize = 3;
+		pageBean.setPageSize(pageSize);
+		// 总页数 = 总记录数/每页记录数
+		Integer totalPage = 0;
+		if (totalCount % pageSize == 0) {
+			totalPage = totalCount / pageSize;
+		} else {
+			totalPage = totalCount / pageSize + 1;
+		}
+		pageBean.setTotalPage(totalPage);
+		//System.out.println("currentPage="+currentPage);
+		Integer begin = (currentPage - 1) * pageSize;
+		pageBean.setBegin(begin);
+		
+		List<Customer> list = customerDao.findPage(begin,pageSize);
+		//System.out.println("service...list.size==="+list.size());
+		pageBean.setList(list);
+
+		return pageBean;
+	}
+
+	public List<Customer> findAllByCustomer(Customer customer) {
+		return customerDao.findAllByCustomer(customer);
+	}
+
+	public List findCountSource() {
+		// TODO Auto-generated method stub
+		return customerDao.findCountSource();
+	}
+
+}

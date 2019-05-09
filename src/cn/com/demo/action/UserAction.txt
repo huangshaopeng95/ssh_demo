@@ -1,0 +1,51 @@
+package cn.com.demo.action;
+
+import javax.servlet.http.HttpSession;
+
+import org.apache.struts2.ServletActionContext;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+
+import cn.com.demo.domain.User;
+import cn.com.demo.service.UserService;
+
+public class UserAction extends ActionSupport implements ModelDriven<User>{
+	private UserService userService;
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+	private User user = new User();
+	@Override
+	public User getModel() {
+		return user;
+	}
+	
+	public String login () {
+		return "login";
+	}
+	public String toLogin () {
+		System.out.println("toLogin....");
+		User newUser = userService.login(user);
+		if(newUser==null) {
+			ServletActionContext.getRequest().setAttribute("msg","用户名或密码错误！");
+			return "login";
+		}
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		session.setAttribute("user",newUser);
+		
+		return "index";
+	}
+	
+	public String add() {
+		return "add";
+	}
+	public String toadd() {
+		//添加
+		return "list";
+	}
+	public String list() {
+		return "list";
+	}
+	
+}

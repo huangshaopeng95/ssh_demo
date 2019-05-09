@@ -1,0 +1,31 @@
+package cn.com.demo.service;
+
+import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import cn.com.demo.dao.LinkManDao;
+import cn.com.demo.domain.LinkMan;
+
+@Transactional
+public class LinkManService {
+	private LinkManDao linkManDao;
+	public void setLinkManDao(LinkManDao linkManDao) {
+		this.linkManDao = linkManDao;
+	}
+	public void addLinkMan(LinkMan linkMan) {
+		linkManDao.addLinkMan(linkMan);
+	}
+	public List<LinkMan> findAll() {
+		return linkManDao.findAll();
+	}
+	public LinkMan findLinkManById(Integer id) {
+		return linkManDao.findLinkManById(id);
+	}
+	public void updateLinkMan(LinkMan linkMan) {
+		linkManDao.updateLinkMan(linkMan);
+	}
+	
+	
+
+}

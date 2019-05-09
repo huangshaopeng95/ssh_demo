@@ -1,0 +1,23 @@
+package cn.com.demo.dao.impl;
+
+import java.util.List;
+
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+
+import cn.com.demo.dao.VisitDao;
+import cn.com.demo.domain.Visit;
+
+public class VisitDaoImpl extends HibernateDaoSupport implements VisitDao {
+
+	@Override
+	public void addVisit(Visit visit) {
+		this.getHibernateTemplate().save(visit);
+	}
+
+	@Override
+	public List<Visit> findAll() {
+		List<Visit> list = (List<Visit>) this.getHibernateTemplate().find("from Visit");
+		return list;
+	}
+
+}

@@ -1,0 +1,36 @@
+package cn.com.demo.dao.impl;
+
+import java.util.List;
+
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+
+import cn.com.demo.dao.LinkManDao;
+import cn.com.demo.domain.LinkMan;
+
+public class LinkManDaoImpl extends HibernateDaoSupport implements LinkManDao{
+
+	@Override
+	public void addLinkMan(LinkMan linkMan) {
+		this.getHibernateTemplate().save(linkMan);
+	}
+
+	@Override
+	public List<LinkMan> findAll() {
+		List<LinkMan> list = (List<LinkMan>) this.getHibernateTemplate().find("from LinkMan");
+		return list;
+	}
+
+	//根据id查询出联系人
+	@Override
+	public LinkMan findLinkManById(Integer id) {
+		LinkMan linkMan = this.getHibernateTemplate().get(LinkMan.class,id);
+		return linkMan;
+	}
+
+	@Override
+	public void updateLinkMan(LinkMan linkMan) {
+		this.getHibernateTemplate().update(linkMan);
+	}
+	
+
+}

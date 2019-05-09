@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+<style>
+.panel{
+       		margin:0px;
+       		padding:5px;
+       		text-align:center;
+       		display:none;
+       }
+       
+	   .flip{
+	   		margin:0px;
+	   		padding:5px;
+	   		text-align:center;
+	   		background:#F2F2F2;
+	   		color : #1B92FD;
+	   	}
+</style>

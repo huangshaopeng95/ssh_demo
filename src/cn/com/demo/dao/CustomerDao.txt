@@ -1,0 +1,27 @@
+package cn.com.demo.dao;
+
+import java.util.List;
+
+import cn.com.demo.domain.Customer;
+
+public interface CustomerDao {
+
+	void addCustomer(Customer customer);
+
+	List<Customer> findAll();
+
+	Customer findCustomerById(Integer id);
+
+	void deleteCustomer(Customer c);
+
+	void updateCustomer(Customer customer);
+
+	Integer findCount();
+
+	List<Customer> findPage(Integer begin, Integer pageSize);
+
+	List<Customer> findAllByCustomer(Customer customer);
+
+	List findCountSource();
+
+}

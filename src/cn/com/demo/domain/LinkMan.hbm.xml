@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.com.demo.domain.LinkMan" table="ssh_linkman">
+		<!-- id -->
+		<id name="lkmId" column="lkmId">
+			<!-- 主键增长策略 -->
+			<generator class="native"></generator>
+		</id>
+		<!-- 普通属性 -->
+		<property name="lkmName" column="lkmName"></property>
+		<property name="lkmGender" column="lkmGender"></property>
+		<property name="lkmPhone" column="lkmPhone"></property>
+		<property name="lkmMobile" column="lkmMobile"></property>
+		<!-- 配置多对一 -->
+		<many-to-one name="customer" column="clid" class="cn.com.demo.domain.Customer"></many-to-one>
+		
+	</class>
+</hibernate-mapping>
+	

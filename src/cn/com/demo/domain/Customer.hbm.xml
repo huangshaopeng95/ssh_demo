@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.com.demo.domain.Customer" table="ssh_customer">
+		<!-- id -->
+		<id name="cid" column="cid">
+			<!-- 主键增长策略 -->
+			<generator class="native"></generator>
+		</id>
+		<!-- 普通属性 -->
+		<property name="custName" column="custName"></property>
+		<property name="custLevel" column="custLevel"></property>
+		<property name="custSource" column="custSource"></property>
+		<property name="custPhone" column="custPhone"></property>
+		<property name="custMobile" column="custMobile"></property>
+		
+		<!-- 配置一对多 -->
+		<set name="linkManSet" inverse="true" cascade="delete">
+			<key column="clid"></key>
+			<one-to-many class="cn.com.demo.domain.LinkMan"/>
+		</set>
+		<set name="setCustVisit" inverse="true" cascade="delete">
+			<key column="cvid"></key>
+			<one-to-many class="cn.com.demo.domain.Visit"/>
+		</set>
+	</class>
+</hibernate-mapping>
+	

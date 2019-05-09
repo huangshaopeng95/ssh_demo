@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="cn.com.demo.domain.Visit" table="ssh_visit">
+		<id name="vid" column="vid">
+			<generator class="native"></generator>
+		</id>
+		<property name="vaddress" column="vaddress"></property>
+		<property name="vcontent" column="vcontent"></property>
+
+		<!-- 配置用户 -->
+		<many-to-one name="user" column="uvid" class="cn.com.demo.domain.User"></many-to-one>
+		<!-- 配置客户 -->
+		<many-to-one name="customer" column="cvid" class="cn.com.demo.domain.Customer"></many-to-one>
+	</class>
+</hibernate-mapping>

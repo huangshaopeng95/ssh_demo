@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- 设置文件大小 -->
+	<!-- <constant name="struts.multipart.maxSize" value="20971520"></constant> -->
+	
+	<package name="ssh" extends="struts-default" namespace="/">
+		<!-- 如果struts2和spring整合，class写spring里面bean标签的id值 -->
+		<action name="user_*" class="userAction" method="{1}">
+			<result name="login">/login.jsp</result>
+			<result name="index">/index.jsp</result>
+			<result name="add">/jsp/user/user_add.jsp</result>
+			<result name="list">/jsp/user/user_list.jsp</result>
+		</action>
+		
+		<action name="customer_*" class="customerAction" method="{1}">
+			<result name="add">/jsp/customer/customer_add.jsp</result>
+			<result name="tolist" type="redirectAction">customer_list</result>
+			<result name="list">/jsp/customer/customer_list.jsp</result>
+			<result name="update">/jsp/customer/customer_update.jsp</result>
+			<result name="listpage">/jsp/customer/customer_listpage.jsp</result>
+			<result name="countSource">/jsp/customer/customer_listSource.jsp</result>
+		</action>
+
+		<action name="linkman_*" class="linkmanAction" method="{1}">
+			<result name="add">/jsp/linkman/linkman_add.jsp</result>
+			<result name="list">/jsp/linkman/linkman_list.jsp</result>
+			<result name="input">/jsp/error.jsp</result>
+			<result name="toupdate">/jsp/linkman/linkman_update.jsp</result>
+			<result name="tolist" type="redirectAction">linkman_list</result>
+		</action>
+		
+		<action name="visit_*" class="visitAction" method="{1}">
+			<result name="add">/jsp/visit/visit_add.jsp</result>
+			<result name="tolist" type="redirectAction">visit_list</result>
+			<result name="list">/jsp/visit/visit_list.jsp</result>
+		</action>
+	</package>
+</struts>

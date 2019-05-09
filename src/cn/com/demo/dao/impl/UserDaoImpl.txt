@@ -1,0 +1,28 @@
+package cn.com.demo.dao.impl;
+
+import java.util.List;
+
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+
+import cn.com.demo.dao.UserDao;
+import cn.com.demo.domain.User;
+
+public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
+
+	@SuppressWarnings("all")
+	@Override
+	public User login(User user) {
+		List<User> list = (List<User>) this.getHibernateTemplate().find("from User where username=? and password=?",
+				user.getUsername(), user.getPassword());
+		if (list != null && list.size() != 0) {
+			return list.get(0);
+		}
+		return null;
+	}
+	@Override
+	public List<User> findAll() {
+		List<User> list = (List<User>) this.getHibernateTemplate().find("from User");
+		return list;
+	}
+
+}

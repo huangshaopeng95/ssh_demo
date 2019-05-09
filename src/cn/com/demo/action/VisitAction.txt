@@ -1,0 +1,63 @@
+package cn.com.demo.action;
+
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+
+import cn.com.demo.domain.Customer;
+import cn.com.demo.domain.User;
+import cn.com.demo.domain.Visit;
+import cn.com.demo.service.CustomerService;
+import cn.com.demo.service.UserService;
+import cn.com.demo.service.VisitService;
+
+public class VisitAction extends ActionSupport implements ModelDriven<Visit>{
+	private VisitService visitService;
+	public void setVisitService(VisitService visitService) {
+		this.visitService = visitService;
+	}
+	private UserService userService;
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+	private CustomerService customerService;
+	public void setCustomerService(CustomerService customerService) {
+		this.customerService = customerService;
+	}
+	//模型驱动
+	private Visit visit = new Visit();
+	@Override
+	public Visit getModel() {
+		return visit;
+	}
+	
+	public String add() {
+		//查询出所有客户和用户
+		List<User> listUser = userService.findAll();
+		List<Customer> listCustomer = customerService.findAll();
+		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.setAttribute("listUser",listUser);
+		request.setAttribute("listCustomer",listCustomer);
+		
+		return "add";
+	}
+	
+	public String toadd() {
+		visitService.addVisit(visit);
+		
+		return "tolist";
+	}
+
+	public String list() {
+		List<Visit> list = visitService.findAll();
+		ServletActionContext.getRequest().setAttribute("list",list);
+		return "list";
+	}
+
+}

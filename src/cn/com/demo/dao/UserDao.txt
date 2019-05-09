@@ -1,0 +1,13 @@
+package cn.com.demo.dao;
+
+import java.util.List;
+
+import cn.com.demo.domain.User;
+
+public interface UserDao {
+
+	public abstract User login(User user);
+
+	public abstract List<User> findAll();
+
+}

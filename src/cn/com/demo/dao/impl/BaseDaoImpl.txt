@@ -1,0 +1,37 @@
+package cn.com.demo.dao.impl;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
+
+import cn.com.demo.dao.BaseDao;
+
+public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T> {
+
+	private Class clazzType;
+	
+	public BaseDaoImpl() {
+		/*
+		 * （4）在BaseDaoImpl中添加无惨构造方法，并在构造方法中得到class对象
+		（5）在构造方法中得到当前运行对象的class
+		（6）在构造方法中得到运行类的父类的参数化类型
+		（7）将参数化类型转换成子接口ParamterizedType
+		（8）在构造方法中得到实际类型参数
+		（9）将type[]数组中索引0的值变成Class并赋值给成员变量
+		 */
+		Class clazz = this.getClass();
+		Type type = clazz.getGenericSuperclass();
+		ParameterizedType ptype = (ParameterizedType) type;
+		Type[] types = ptype.getActualTypeArguments();
+		this.clazzType = (Class) types[0];
+	}
+
+	@Override
+	public List<T> findAll() {
+		this.getHibernateTemplate().find("from "+clazzType.getSimpleName());
+		return null;
+	}
+	
+}

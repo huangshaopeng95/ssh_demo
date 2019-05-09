@@ -1,0 +1,113 @@
+package cn.com.demo.action;
+
+import java.util.List;
+
+import org.apache.struts2.ServletActionContext;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+
+import cn.com.demo.domain.Customer;
+import cn.com.demo.domain.PageBean;
+import cn.com.demo.service.CustomerService;
+
+public class CustomerAction extends ActionSupport implements ModelDriven<Customer> {
+	private CustomerService customerService;
+
+	public void setCustomerService(CustomerService customerService) {
+		this.customerService = customerService;
+	}
+
+	public String add() {
+		return "add";
+	}
+
+	private Customer customer = new Customer();
+
+	@Override
+	public Customer getModel() {
+		return customer;
+	}
+
+	public String toadd() {
+		// 添加
+		customerService.addCustomer(customer);
+		return "tolist";
+	}
+
+	// 存放到值栈中
+	private List<Customer> custList;
+
+	public List<Customer> getCustList() {
+		return custList;
+	}
+
+	/*
+	 * public String list() { // 查询所有 custList = customerService.findAll(); //
+	 * 存放到值栈中 return "list"; }
+	 */
+	public String list() {
+		// 查询所有
+		if ((customer.getCustName() != null && !customer.getCustName().equals("")) || 
+				(customer.getCustSource() != null && !customer.getCustSource().equals("")) || 
+				(customer.getCustPhone() != null && !customer.getCustPhone().equals(""))) {
+			custList = customerService.findAllByCustomer(customer);
+		} else {
+			custList = customerService.findAll();
+		}
+		// 存放到值栈中
+		return "list";
+	}
+
+	// 分页查询
+	private Integer currentPage;
+
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	public String listpage() {
+		PageBean pageBean = customerService.findPage(currentPage);
+		ServletActionContext.getRequest().setAttribute("pageBean", pageBean);
+
+		return "listpage";
+	}
+
+	public String delete() {
+		// 删除(先根据id查询出对象，再删除)
+		// 从模型驱动中获取id值
+		Integer id = customer.getCid();
+		Customer c = customerService.findCustomerById(id);
+		if (c != null) {
+			customerService.deleteCustomer(c);
+		}
+		return "tolist";
+	}
+
+	public String update() {
+		Integer id = customer.getCid();
+		// 向域对象中存放对象
+		Customer c = customerService.findCustomerById(id);
+		ServletActionContext.getRequest().setAttribute("c", c);
+		return "update";
+	}
+
+	public String toupdate() {
+		// 修改
+		customerService.updateCustomer(customer);
+
+		return "tolist";
+	}
+	//客户来源统计查询
+	public String countSource() {
+		List list = customerService.findCountSource();
+		ServletActionContext.getRequest().setAttribute("list", list);
+		
+		return "countSource";
+	}
+
+}

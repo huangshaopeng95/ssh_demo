@@ -1,0 +1,114 @@
+package cn.com.demo.action;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.struts2.ServletActionContext;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.ModelDriven;
+
+import cn.com.demo.domain.Customer;
+import cn.com.demo.domain.LinkMan;
+import cn.com.demo.service.CustomerService;
+import cn.com.demo.service.LinkManService;
+
+public class LinkManAction extends ActionSupport implements ModelDriven<LinkMan> {
+	private LinkManService linkManService;
+
+	public void setLinkManService(LinkManService linkManService) {
+		this.linkManService = linkManService;
+	}
+
+	private CustomerService customerService;
+
+	public void setCustomerService(CustomerService customerService) {
+		this.customerService = customerService;
+	}
+
+	public String add() {
+		// 将所有客户查询出来，并返回到页面
+		List<Customer> custList = customerService.findAll();
+		ServletActionContext.getRequest().setAttribute("custList", custList);
+
+		return "add";
+	}
+
+	//模型驱动
+	private LinkMan linkMan = new LinkMan();
+	@Override
+	public LinkMan getModel() {
+		return linkMan;
+	}
+
+	// 在添加方法里加入文件上传
+	// struts2封装了文件上传，只需要在成员位置，添加两个变量：1 文件（流）2文件名称。再生成getset方法就可以获得文件
+	// 1 文件的属性名要和表单的上传项的name值一致
+	private File fileupload;
+	// 2文件名称有命名规范：上传项的name值+FileName
+	private String fileuploadFileName;
+	public File getFileupload() {
+		return fileupload;
+	}
+	public void setFileupload(File fileupload) {
+		this.fileupload = fileupload;
+	}
+	public String getFileuploadFileName() {
+		return fileuploadFileName;
+	}
+	public void setFileuploadFileName(String fileuploadFileName) {
+		this.fileuploadFileName = fileuploadFileName;
+	}
+
+	public String toadd() throws IOException {
+		// 上传文件
+		if (fileupload != null) {
+			// 在服务器端创建文件
+			File server = new File("E:\\ssh\\fileupload\\" + fileuploadFileName);
+			// 将上传的文件复制到服务器端
+			FileUtils.copyFile(fileupload, server);
+
+		}
+		linkManService.addLinkMan(linkMan);
+		return "tolist";
+	}
+
+	public String list() {
+		// 查询所有的联系人
+		List<LinkMan> list = linkManService.findAll();
+		ServletActionContext.getRequest().setAttribute("list",list);
+		return "list";
+	}
+	
+	//到修改页面
+	public String update() {
+		//获取修改的联系人id
+		Integer id = linkMan.getLkmId();
+		//查询出该联系人所有信息
+		LinkMan linkMan = linkManService.findLinkManById(id);
+		//将联系人放入域对象中
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.setAttribute("linkMan",linkMan);
+		//将所有客户放入域对象中
+		List<Customer> custList = customerService.findAll();
+		request.setAttribute("custList", custList);
+		return "toupdate";
+	}
+	//修改
+	public String toupdate() {
+		System.out.println(linkMan);
+		linkManService.updateLinkMan(linkMan);
+		System.out.println("--");
+		return "tolist";
+	}
+
+	public String listpage() {
+
+		return "listpage";
+	}
+
+}

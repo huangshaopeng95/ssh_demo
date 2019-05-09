@@ -1,0 +1,26 @@
+package cn.com.demo.service;
+
+import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import cn.com.demo.dao.VisitDao;
+import cn.com.demo.domain.Visit;
+
+@Transactional
+public class VisitService {
+	private VisitDao visitDao;
+	public void setVisitDao(VisitDao visitDao) {
+		this.visitDao = visitDao;
+	}
+	public void addVisit(Visit visit) {
+		// TODO Auto-generated method stub
+		visitDao.addVisit(visit);
+	}
+	public List<Visit> findAll() {
+		// TODO Auto-generated method stub
+		return visitDao.findAll();
+	}
+	
+
+}

@@ -1,0 +1,13 @@
+package cn.com.demo.dao;
+
+import java.util.List;
+
+import cn.com.demo.domain.Visit;
+
+public interface VisitDao {
+
+	void addVisit(Visit visit);
+
+	List<Visit> findAll();
+
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- 1 和spirng整合后，数据库部分不需要写 -->
+		<!-- <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql:///hibernate</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">root</property> -->
+		<!-- 2 -->
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.format_sql">true</property>
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<!-- 配置session绑定本地线程 -->
+		<!-- <property name="hibernate.current_session_context_class">thread</property> -->
+		
+		<!-- 3 -->
+		<mapping resource="cn/com/demo/domain/User.hbm.xml" />
+		<mapping resource="cn/com/demo/domain/Customer.hbm.xml" />
+		<mapping resource="cn/com/demo/domain/LinkMan.hbm.xml" />
+		<mapping resource="cn/com/demo/domain/Visit.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>
